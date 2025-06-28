@@ -84,6 +84,211 @@
   transform: translateY(0);
 }
 
+/* SIDEBAR */
+.sidebar {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  min-width: 240px;
+  max-width: 280px;
+  padding: 28px 16px 10px 16px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid var(--border-color);
+  transition: background 0.3s;
+  box-shadow: 2px 0 8px 0 rgba(0,0,0,0.03);
+}
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sidebar-user { margin-top: 18px; margin-bottom: 24px; }
+.user-info { font-weight: 500; color: var(--text-primary); }
+.sidebar-section { flex: 1; margin-top: 24px; }
+.history-list { list-style: none; margin: 0; padding: 0; font-size: 15px; }
+.history-list li { margin: 8px 0; padding: 6px; border-radius: 7px; background: none; }
+.history-result { font-size: 11px; color: var(--text-secondary); margin-left: 8px; }
+/* End sidebar */
+
+/* MAIN LAYOUT */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.App-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  position: relative;
+  background: none;
+  padding-left: 0;
+}
+.app-title {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 2rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* GAME FLOW (start/join/select game) */
+.game-flow-selector {
+  margin: 68px auto 0 auto;
+  max-width: 400px;
+  background: var(--bg-secondary);
+  padding: 32px 28px;
+  border-radius: 14px;
+  box-shadow: 0 3px 16px rgba(0,0,0,0.08);
+}
+.game-flow-selector input, .game-flow-selector button, .game-flow-selector select {
+  display: block;
+  margin: 14px auto;
+}
+.btn, .btn-large, .btn-small {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 7px;
+  padding: 10px 22px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.3s, transform 0.1s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+}
+.btn-large { font-size: 1.2rem; padding: 14px 34px; }
+.btn-small { font-size: 0.85rem; padding: 7px 16px; }
+.btn:active { transform: translateY(1px); }
+.btn[disabled] { opacity: 0.6; cursor: not-allowed; }
+.link-like {
+  background: none !important;
+  color: var(--text-secondary) !important;
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+  font-size: 0.95em;
+  cursor: pointer;
+}
+.form-error {
+  color: #c6262e;
+  margin: 10px 0;
+}
+
+/* Boards */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 0;
+}
+.game-header {
+  margin-bottom: 24px;
+}
+.status-banner {
+  display: block;
+  font-size: 1.22rem;
+  font-weight: 600;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+}
+.game-footer { margin-top: 28px; }
+
+/* TIC TAC TOE BOARD */
+.ttt-board {
+  display: flex;
+  flex-direction: column;
+  border-radius: 13px;
+  background: var(--bg-secondary);
+  box-shadow: 0 2px 7px rgba(0,0,0,0.09);
+  margin: 0 auto;
+}
+.ttt-row { display: flex; }
+.cell {
+  width: 70px; height: 70px;
+  font-size: 2.9rem;
+  line-height: 1;
+  font-family: monospace, 'Courier New', Courier;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  padding: 0;
+  outline: none;
+  margin: 0;
+}
+.cell.winner {
+  background: #43a047;
+  color: #fff;
+}
+.cell:focus { outline: 2px solid var(--text-secondary); }
+.cell:disabled { opacity: 0.45; cursor: default; }
+
+/* Auth Screen */
+.auth-container {
+  background: var(--bg-secondary);
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  max-width: 350px;
+  margin: 56px auto;
+  padding: 38px 22px 30px 22px;
+  text-align: center;
+}
+.auth-container input {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1em;
+  margin: 12px 0;
+  width: 90%;
+  padding: 12px 8px;
+  color: var(--text-primary);
+}
+.auth-container button { margin-top: 9px; }
+.mode-switch { font-size: 0.96em; margin-top: 13px; }
+.mode-switch button.link-like { font-size: 1em; margin-left: 2px; }
+/* End auth */
+
+/* Join/list UI */
+.join-list { list-style: none; padding: 0; margin: 0; }
+.join-item {
+  display: flex; flex-direction: row; align-items: center;
+  padding: 7px 0; justify-content: space-between;
+}
+.join-item button { margin-left: 10px; padding: 5px 13px; }
+/* End join/list */
+
+.error-banner {
+  padding: 0.7em 0.9em;
+  background: #ffe1e1;
+  color: #b90f1c;
+  margin-bottom: 1em;
+  border-radius: 7px;
+  font-weight: 500;
+  box-shadow: 0 3px 9px rgba(210,0,0,0.02);
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+  .sidebar {
+    min-width: 62px;
+    max-width: 90px;
+    padding: 4px 3px;
+  }
+  .app-title { font-size: 1.2rem; }
+  .main-content { padding: 0; }
+  .game-container, .auth-container { margin: 0; max-width: 100vw; }
+  .ttt-board .cell { width: 46px; height: 46px; font-size: 24px; }
+}
+@media (max-width: 480px) {
+  .sidebar { display: none; }
+  .main-content { width: 100vw; }
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
