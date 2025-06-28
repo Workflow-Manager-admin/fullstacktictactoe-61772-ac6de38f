@@ -21,18 +21,49 @@ function AuthScreen({ onAuthSuccess, setGlobalError }) {
     setGlobalError("");
     setLoading(true);
     try {
-      const route = mode === "signup" ? "/auth/signup" : "/auth/login";
-      const resp = await fetch(`${process.env.REACT_APP_BACKEND_URL || "http://localhost:3001"}${route}`, {
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:3001";
+      if (mode === "signup") {
+        // FastAPI: POST /register expects {username, email, password}
+        const resp = await fetch(`${BACKEND_URL}/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username,
+            email: `${username}@fake.email`, // for demo: auto-generate email, since frontend doesn't ask
+            password
+          }),
+        });
+        const data = await resp.json();
+        if (!resp.ok) {
+          setFormError(data.detail || "Registration failed.");
+          setLoading(false);
+          return;
+        }
+        // Immediately login after successful signup
+      }
+
+      // Login flow (works after signup or as main path)
+      const form = new URLSearchParams();
+      form.append("username", username);
+      form.append("password", password);
+      const loginResp = await fetch(`${BACKEND_URL}/token`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: form.toString(),
       });
-      const data = await resp.json();
-      if (resp.ok && data.token && data.user) {
-        window.localStorage.setItem("ttt_token", data.token);
-        onAuthSuccess(data.user, data.token);
+      const loginData = await loginResp.json();
+      if (loginResp.ok && loginData.access_token) {
+        // Fetch user profile for frontend expectations
+        window.localStorage.setItem("ttt_token", loginData.access_token);
+        // Get user details from /users/me
+        const userResp = await fetch(`${BACKEND_URL}/users/me`, {
+          headers: { Authorization: `Bearer ${loginData.access_token}` },
+        });
+        if (!userResp.ok) throw new Error("Could not fetch user");
+        const userData = await userResp.json();
+        onAuthSuccess(userData, loginData.access_token);
       } else {
-        setFormError(data.detail || "Authentication failed.");
+        setFormError(loginData.detail || "Authentication failed.");
       }
     } catch (err) {
       setGlobalError("Connection error. Please try again.");
